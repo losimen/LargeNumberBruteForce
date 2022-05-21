@@ -3,4 +3,4 @@ project(LargeNumbers)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(LargeNumbers main.cpp InfInt.h)
+add_executable(LargeNumbers main.cpp InfInt.h CTimer.h)
