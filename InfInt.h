@@ -1116,7 +1116,7 @@ inline unsigned long long InfInt::toUnsignedLongLong() const
 #ifdef INFINT_USE_EXCEPTIONS
         throw InfIntException("out of bounds");
 #else
-        std::cerr << "Out of ULLONG bounds: " << *this << std::endl;
+        throw std::overflow_error("Out of ULLONG bounds:");
 #endif
     }
     unsigned long long result = 0;
