@@ -1,11 +1,13 @@
 #include <iostream>
 #include <random>
+#include <thread>
+#include <chrono>
 
 #include "InfInt.h"
 #include "CTimer.h"
 
 const int BASE_2 = 2;
-
+std::mutex print_mutex;
 
 std::string ConvertToHex(InfInt myNum) {
     std::string hexStr;
@@ -78,6 +80,18 @@ InfInt GenerateRandomKey(const InfInt &bitsAmount) {
 }
 
 
+void BruteForceThreadHandler(const int amountOfBits, const InfInt generatedKey, const InfInt maxBits) {
+    auto *timerForce8 = new CTimer(std::string("result ") + std::to_string(amountOfBits) + std::string(" bits "));
+
+    print_mutex.lock();
+    std::cout << "--brute force " << amountOfBits << " bits begun--" << std::endl;
+    print_mutex.unlock();
+
+    BruteForceKey(generatedKey, maxBits);
+    delete timerForce8;
+}
+
+
 int main() {
     InfInt myNumber = "0";
 
@@ -131,55 +145,27 @@ int main() {
 
     std::cout << std::endl << "BRUTE FORCE THE KEY: " << std::endl;
 
-    auto *timerForce8 = new CTimer("--brute force 8 bits");
-    std::cout << "--brute force 8 bits begun--" << std::endl;
-    BruteForceKey(generated8, maxBits8);
-    delete timerForce8;
+    std::thread butForce8 (BruteForceThreadHandler, 8, generated8, maxBits8);
+    std::thread butForce16 (BruteForceThreadHandler, 16, generated16, maxBits16);
+    std::thread butForce32 (BruteForceThreadHandler, 32, generated32, maxBits32);
+    std::thread butForce64 (BruteForceThreadHandler, 64, generated64, maxBits64);
+    std::thread butForce128 (BruteForceThreadHandler, 128, generated128, maxBits128);
+    std::thread butForce256 (BruteForceThreadHandler, 256, generated256, maxBits256);
+    std::thread butForce512 (BruteForceThreadHandler, 512, generated512, maxBits512);
+    std::thread butForce1024 (BruteForceThreadHandler, 1024, generated1024, maxBits1024);
+    std::thread butForce2048 (BruteForceThreadHandler, 2048, generated2048, maxBits2048);
+    std::thread butForce4096 (BruteForceThreadHandler, 4096, generated4096, maxBits4096);
 
-    auto *timerForce16 = new CTimer("--brute force 16 bits");
-    std::cout << "--brute force 8 bits begun--" << std::endl;
-    BruteForceKey(generated16, maxBits16);
-    delete timerForce16;
-
-    auto *timerForce32 = new CTimer("--brute force 32 bits");
-    std::cout << "--brute force 32 bits begun--" << std::endl;
-    BruteForceKey(generated32, maxBits32);
-    delete timerForce32;
-
-    auto *timerForce64 = new CTimer("--brute force 64 bits");
-    std::cout << "--brute force 64 bits begun--" << std::endl;
-    BruteForceKey(generated64, maxBits64);
-    delete timerForce64;
-
-    auto *timerForce128 = new CTimer("--brute force 128 bits");
-    std::cout << "--brute force 128 bits begun--" << std::endl;
-    BruteForceKey(generated128, maxBits128);
-    delete timerForce128;
-
-    auto *timerForce256 = new CTimer("--brute force 256 bits");
-    std::cout << "--brute force 256 bits begun--" << std::endl;
-    BruteForceKey(generated256, maxBits256);
-    delete timerForce256;
-
-    auto *timerForce512 = new CTimer("--brute force 512 bits");
-    std::cout << "--brute force 512 bits begun--" << std::endl;
-    BruteForceKey(generated512, maxBits512);
-    delete timerForce512;
-
-    auto *timerForce1024 = new CTimer("--brute force 1024 bits");
-    std::cout << "--brute force 1024 bits begun--" << std::endl;
-    BruteForceKey(generated1024, maxBits1024);
-    delete timerForce1024;
-
-    auto *timerForce2048 = new CTimer("--brute force 2048 bits");
-    std::cout << "--brute force 2048 bits begun--" << std::endl;
-    BruteForceKey(generated2048, maxBits2048);
-    delete timerForce2048;
-
-    auto *timerForce4096 = new CTimer("--brute force 4096 bits");
-    std::cout << "--brute force 4096 bits begun--" << std::endl;
-    BruteForceKey(generated4096, maxBits4096);
-    delete timerForce4096;
+    butForce8.join();
+    butForce16.join();
+    butForce32.join();
+    butForce64.join();
+    butForce128.join();
+    butForce256.join();
+    butForce512.join();
+    butForce1024.join();
+    butForce2048.join();
+    butForce4096.join();
 
     return 0;
 }
