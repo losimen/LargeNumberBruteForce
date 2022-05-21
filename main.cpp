@@ -60,7 +60,7 @@ InfInt Pow(int number, int toPow) {
 
 InfInt GenerateRandomKey(const InfInt &bitsAmount) {
     InfInt result;
-    InfInt maxValue;
+    unsigned long long maxValue;
 
     try {
         maxValue = bitsAmount.toUnsignedLongLong();
@@ -72,7 +72,7 @@ InfInt GenerateRandomKey(const InfInt &bitsAmount) {
 
     std::default_random_engine generator(rd());
 
-    std::uniform_int_distribution<long long unsigned> distribution(0, maxValue.toUnsignedLongLong());
+    std::uniform_int_distribution<long long unsigned> distribution(0, maxValue);
 
     result = distribution(generator);
 
