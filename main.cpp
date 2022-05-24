@@ -7,7 +7,6 @@
 #include "CTimer.h"
 
 const int BASE_2 = 2;
-std::mutex print_mutex;
 
 std::string ConvertToHex(InfInt myNum) {
     std::string hexStr;
@@ -80,7 +79,8 @@ InfInt GenerateRandomKey(const InfInt &bitsAmount) {
 }
 
 
-void BruteForceThreadHandler(const int amountOfBits, const InfInt generatedKey, const InfInt maxBits) {
+void BruteForceThreadHandler(const int amountOfBits, const InfInt &generatedKey, const InfInt &maxBits) {
+    static std::mutex print_mutex;
     auto *timerForce8 = new CTimer(std::string("result ") + std::to_string(amountOfBits) + std::string(" bits "));
 
     print_mutex.lock();
