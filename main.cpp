@@ -12,11 +12,8 @@ std::string ConvertToHex(InfInt myNum) {
     std::string hexStr;
     std::string resultHex;
 
-    while (true)
+    while (myNum == 0)
     {
-        if (myNum == 0)
-            break;
-
         std::stringstream stream;
 
         stream << std::hex << myNum%16;
